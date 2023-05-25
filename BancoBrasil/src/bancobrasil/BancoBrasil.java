@@ -1,5 +1,6 @@
 package bancobrasil;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class BancoBrasil {
@@ -10,6 +11,7 @@ public class BancoBrasil {
         ContaBancaria contaBancaria1 = new ContaBancaria();
         ContaBancaria contaBancaria2 = new ContaBancaria();
         Usuario user1 = new Usuario();
+        int qtdCadastro = 0;
         /*
      Uso nas versões mais atuais da jdk
      Var contaBancaria = new ContaBancaria();
@@ -62,10 +64,34 @@ public class BancoBrasil {
         Scanner scan = new Scanner(System.in);
         boolean existe = false;
         int opcao = 0;
+        boolean isLogin = false;
         Usuario user;
-        Usuario[] users = new Usuario[5];
+        ArrayList<Usuario> users = new ArrayList<>();
+        ArrayList<Gerente> gerentes = new ArrayList<>();
         ContaBancaria conta = new ContaBancaria();
-
+        GerenteRepositorio db_gerente = new GerenteRepositorio();
+        
+        do{
+        System.out.println("-----SEJA BEM VINDO AO BANCO BRASIL-----");
+        System.out.print("LOGIN: ");
+        String login = scan.next();
+        System.out.print("PASSWORD: ");
+        String password = scan.next();
+        
+        for(Gerente g : gerentes){
+            if(g.getLogin().equals(login ) && g.getPassword().equals(password)){
+                isLogin = true;
+                
+            }
+        } 
+        
+        }while (isLogin != true);
+        
+        if(isLogin == false){
+            System.out.println("Login ou senha inválida");
+        }
+        1
+        
         while (opcao != 3) {
             //1° tela
             System.out.println("=======================");
@@ -79,40 +105,47 @@ public class BancoBrasil {
 
             switch (opcao) {
                 case 1:
-                    for (int i = 0; i < users.length; i++) {
-                        user = new Usuario();
-                        System.out.println("1- \nCADASTRO DE CLIENTE\n");
+                    System.out.println("1- \nCADASTRO DE CLIENTE\n");
+                    System.out.println("Quantidade de cadastros");
+                    qtdCadastro = scan.nextInt();
+
+                    for (int i = 0; i < qtdCadastro; i++) {
+                        user = new Cliente();
                         System.out.println("Nome: ");
                         user.setNome(scan.next());
                         System.out.println("Sobrenome: ");
                         user.setSobrenome(scan.next());
                         System.out.println("Telefone");
                         user.setTelefone(scan.next());
-                        users[i] = user;
-
+                        user = new Usuario();
                     }
                     break;
 
                 case 2:
-                    System.out.println("2- CADASTRO DE CONTA");
+                    System.out.println("-----CADASTRO DE CONTA-----");
                     System.out.print("Agencia:");
                     conta.setConta(scan.next());
                     System.out.println("CLIENTES CADASTRADOS");
-                    for (int i = 0; i < users.length; i++) {
-                        System.out.printf("\n%d- %s %s", (i + 1), users[i].getNome(), users[i].getSobrenome());
-                    }
-                    System.out.print("\nSelecione o Cliente: ");
-                    int userOpcao = scan.nextInt();
-                    for (int i = 0; i < users.length; i++) {
-                        if (userOpcao - 1 == i) {
-                            conta.setProprietario(users[userOpcao - 1]);
-                            existe = true;
+                    //Será listados os clientes cadastrados
+                    if (users.size() != 0) {
+                        for (int i = 0; i < qtdCadastro; i++) {
+                            System.out.printf("\n%d- %s %s", (i + 1), users.get(i).getNome(), users.get(i).getSobrenome());
                         }
+                        System.out.print("\nSelecione o Cliente: ");
+                        int userOpcao = scan.nextInt();
+                        for (int i = 0; i < qtdCadastro; i++) {
+                            if (userOpcao - 1 == i) {
+                                conta.setProprietario(users.get(userOpcao - 1));
+                                existe = true;
+                            }
 
-                    }
-                    if (existe == false) {
-                        System.out.println("Cliente nao existe");
-                        break;
+                        }
+                        if (existe == false) {
+                            System.out.println("Cliente nao existe");
+                            break;
+                        }
+                    } else {
+                        System.out.println("Nenhum cliente Cadastrado!" + "");
                     }
 
                 case 3:

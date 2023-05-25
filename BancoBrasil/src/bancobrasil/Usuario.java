@@ -9,10 +9,10 @@ public class Usuario {
   String nome;
   String sobrenome;
   String telefone;
-  private Date dataRegistro = new Date();
+ 
     //Construtores
     public Usuario(){};
-    public Usuario (String n, String s, String t, Date d){
+    public Usuario (String n, String s, String t){
         this.nome = nome;
         this.sobrenome = sobrenome;
         this.telefone  = telefone;   
@@ -40,8 +40,8 @@ public class Usuario {
     }
     
     
-    String imprimirInfo(){
-    return String.format("nome: %s\n Sobrenome: %s\n Telefone: %s Data Registro: %s",this.nome, this.sobrenome, this.telefone, this.dataRegistro);
+   public String imprimirInfo(){
+    return String.format("nome: %s\n Sobrenome: %s\n Telefone: %s Data Registro: %s",this.nome, this.sobrenome, this.telefone);
     
     }
 }
